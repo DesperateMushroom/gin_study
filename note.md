@@ -1,4 +1,4 @@
-#### 0.0.0.0 所有本机IP
+#### 0.0.0.0 所有内网IP
 因为你电脑可能有
 - 一台电脑其实可以同时有很多“网卡” docker，wsl..
 - localhost `127.0.0.1`
@@ -30,4 +30,22 @@
 ### Gin的本质：
 - 在go的原生http上做封装
 
-vvv
+
+## 响应 https://www.fengfengzhidao.com/article/tVPJ1o8BvtodovUy9nK2
+- code == 200: 状态码，表示ok，链接通畅
+- 响应给前端的json
+    - “code” ： 错误码，0-没问题
+    - “msg” ：
+
+
+### map[string]any{}
+- map - 映射表
+- string - key的类型是string
+- any - value可以是任意类型
+- {} - 创建一个空map
+- struct适合固定字段，而map适合动态字段（json，配置，api返回）
+
+
+### 关于部署
+- 前后端单独部署
+- 前端打包之后，后端统一部署
