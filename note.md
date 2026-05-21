@@ -119,3 +119,25 @@ url 编码
     "age":12
 }
 ```
+
+
+## 14. bind绑定器
+使用binding可以很好的完成参数的绑定
+
+### 查询参数
+- `http://127.0.0.1:8080/?name=gege&age=12`
+- `ShouldBindQuery()` : 把 URL query 参数自动解析并绑定到 Go struct 里。
+
+### 路径参数
+- `users/:id/:name`
+- `ShouldBindUri()`：自动把“路径参数（URI parameters）”绑定到 struct。
+
+
+### 表单参数
+- `ShouldBind()`：它会根据 请求的 Content-Type 自动选择绑定方式，把参数填充到 struct 里。
+| 注意：不能解析x-www-form-urlencoded的格式
+
+### json参数
+- `ShouldBindJSON()`
+
+### header参数
