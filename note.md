@@ -1,3 +1,8 @@
+## go 语法
+- `:=`	声明并赋值
+- `=`	给已经存在的变量赋值
+
+
 #### 0.0.0.0 所有内网IP
 因为你电脑可能有
 - 一台电脑其实可以同时有很多“网卡” docker，wsl..
@@ -78,3 +83,39 @@
 | 注意：接口测试工具能走通的，前端请求不一定可以走通
 - get请求带请求体
 - ws加请求头
+
+## 13. 原始内容
+- 不同请求体对应的原始内容
+
+#### body阅后即焚问题解决
+```go
+byteData, _ := io.ReadAll(ctx.Request.Body)
+ctx.Request.Body = io.NopCloser(bytes.NewReader(byteData))
+
+name := ctx.PostForm("name")
+fmt.Println(name)
+```
+
+#### form-data
+```
+----------------------------753936771297636080885206
+Content-Disposition: form-data; name="name"
+
+aoao
+----------------------------753936771297636080885206--
+```
+
+对应的分隔符就是 `Content-Type:[multipart/form-data; boundary=--------------------------129825813012364991523656]`
+
+
+### x-www-form-urlencoded
+url 编码
+
+
+### json格式
+```
+{
+    "name":"aoao",
+    "age":12
+}
+```
