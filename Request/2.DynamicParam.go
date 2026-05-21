@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func main2() {
 	r := gin.Default()
 
 	r.GET("users/:id", func(ctx *gin.Context) {
