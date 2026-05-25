@@ -196,3 +196,27 @@ datetime=2006-01-02
 ## 自定义binding规则
 
 ### 错误信息显示成中文
+
+## 路由和中间件
+路由分组
+
+把一类api划分到一个组
+
+可以给这个组加上统一的中间件
+
+```Go
+// 在没有resetful规范正确，表示创建用户，删除用户
+/api/user_create
+/api/users/create
+/api/users/add
+/api/add_user
+/api/user/delete
+/api/user_remove
+
+// 使用resetful规范
+GET /api/users  用户列表
+POST /api/users  创建用户
+PUT /api/users/:id 更新用户信息
+DELETE /api/users 批量删除用户
+DELETE /api/users/:id 删除单个用户
+```
