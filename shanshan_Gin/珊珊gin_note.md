@@ -73,3 +73,19 @@ r.Run("127.0.0.1:8080") // same as http.ListenAndServer
     - 在html中define定义目录 
         `{{define "demo01/hello01.html"}}` 
         `{{end}}`
+
+## 7.数据互动-使用静态文件
+[1] 指定静态文件的路径
+1. 方式1：
+    `func (group *RouterGroup) Static(relativePath, root string) IRoutes{}`
+    - 第一个参数：相对路径
+    - 第二个参数：文件夹名称
+    - 含义：这个相对路径映射到哪个文件夹上去
+    `r.Static("/s", "/static") // 用‘/s'来替代 /static路径`
+2. 方式2：
+    `func (group *RouterGroup) StaticFS(relativePath, fs http.FileSystem) IRoutes{}`
+    `r.StaticFS("/s", http.Dir("static"))`
+[2] 在前端页面引入静态文件：
+    `<link rel="stylesheet" href="/s/css/mycss.css">`
+
+    
