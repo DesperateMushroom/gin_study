@@ -64,14 +64,17 @@ r.Run("127.0.0.1:8080") // same as http.ListenAndServer
         - 渲染文件名
         - 传入参数：空接口可以接收任意类型
 
-4. 多级目录的模板指定
+4. 多级目录的模板指定    
 如果有多级目录，比如templates下有demo01和demo02两个目录，如果要使用里面的html文件，必须得在Load的时候指定多级才可以，比如`r.LoadHTMLGlob("templates/**/*")`   
-    - 有几级目录，得在通配符上标明
+    - 有几级目录，得在通配符上标明    
         `r.LoadHTMLGlob("templates/**/*")`
-    - 指定html文件，处理第一级的templates路径不需要指定，后面的路径都要指定 
-        `c.HTML(200, "demo01/hello01.html", nil)`
-    - 在html中define定义目录 
-        `{{define "demo01/hello01.html"}}` 
+    - 指定html文件，处理第一级的templates路径不需要指定，后面的路径都要指定     
+        ```go
+        // params: 状态码，渲染文件名, 空接口可以接受任意类型
+        c.HTML(200, "demo01/hello01.html", nil)
+        ```
+    - 在html中define定义目录    
+        `{{define "demo01/hello01.html"}}`    
         `{{end}}`
 
 ## 7.数据互动-使用静态文件
@@ -79,19 +82,32 @@ r.Run("127.0.0.1:8080") // same as http.ListenAndServer
 1. 方式1：
     `func (group *RouterGroup) Static(relativePath, root string) IRoutes{}`
     - 第一个参数：相对路径
-    - 第二个参数：文件夹名称
-    - 含义：这个相对路径映射到哪个文件夹上去
-    `r.Static("/s", "/static") // 用‘/s'来替代 /static路径`
+    - 第二个参数：文件夹名称s
+    - 含义：这个相对路径映射到哪个文件夹上去   
+        `r.Static("/s", "/static") // 用‘/s'来替代 /static路径`   
 2. 方式2：
-    `func (group *RouterGroup) StaticFS(relativePath, fs http.FileSystem) IRoutes{}`
-    `r.StaticFS("/s", http.Dir("static"))`
+    `func (group *RouterGroup) StaticFS(relativePath, fs http.FileSystem) IRoutes{}`    
+    `r.StaticFS("/s", http.Dir("static"))`    
 [2] 在前端页面引入静态文件：
     `<link rel="stylesheet" href="/s/css/mycss.css">`
 
 ## 8.项目结构调整
 【1】单独将函数部分提取：
-创建文件夹 - 创建go文件-将函数放入：
+创建文件夹 - 创建go文件-将函数放入   
 
 【2】在main.go中调用即可
     `myfunc.go`
 
+
+## 9.数据交互-后端数据给前端-不同类型渲染入页面
+
+### 渲染字符串类型
+【1】将要渲染的字符串通过第三个参数传入   
+```Go
+name := "hello iam aoao"
+c.HTML(200, "demo01/hello01.html", name)
+```
+
+【2】在页面上利用上下文来获取：   
+PS: .代表的就是上下文中你传入的name
+`{{.}}`
