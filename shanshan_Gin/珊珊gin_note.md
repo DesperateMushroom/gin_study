@@ -88,4 +88,10 @@ r.Run("127.0.0.1:8080") // same as http.ListenAndServer
 [2] 在前端页面引入静态文件：
     `<link rel="stylesheet" href="/s/css/mycss.css">`
 
-    
+## 8.项目结构调整
+【1】单独将函数部分提取：
+创建文件夹 - 创建go文件-将函数放入：
+
+【2】在main.go中调用即可
+    `myfunc.go`
+

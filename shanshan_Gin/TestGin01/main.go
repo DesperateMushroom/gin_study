@@ -1,6 +1,8 @@
 package main
 
 import (
+	"gin_study/shanshan_Gin/TestGin01/myfunc"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,12 +16,7 @@ func main() {
 	// 指定静态文件：指定css文件
 	r.Static("/s", "static") // 用‘/s'来替代 /static路径
 	// r.StaticFS("/s", http.Dir("static")) // 这俩效果一样，一般用上面的
-	r.GET("/demo01", Hello)
+	r.GET("/demo01", myfunc.Hello)
 
 	r.Run()
-}
-
-func Hello(c *gin.Context) {
-	// params: 状态码，渲染文件名, 空接口可以接受任意类型
-	c.HTML(200, "demo01/hello01.html", nil)
 }
