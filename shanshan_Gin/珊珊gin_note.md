@@ -203,3 +203,28 @@ func Hello4(c *gin.Context) {
         <br>
     {{end}}
 ```
+
+### 渲染map结构类型
+【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+func Hello5(c *gin.Context) {
+	// 定义一个Map
+	var a map[string]int = make(map[string]int, 3)
+	//将键值对存入map
+	a["alice"] = 1
+	a["bob"] = 2
+	a["cathy"] = 3
+	c.HTML(200, "demo01/hello01.html", a)
+}
+```
+【2】在页面上利用上下文来获取：  
+```HTML
+    {{/*获取map中内容，通过key获取value值， .代表上下文中的map*/}}
+    {{.alice}}<br>
+    {{.bob}}
+
+    {{查看所有key & value}}
+    {{range $key, $value := .}}
+        key: {{$key}} value: {{$value}} <br>
+    {{end}}
+```

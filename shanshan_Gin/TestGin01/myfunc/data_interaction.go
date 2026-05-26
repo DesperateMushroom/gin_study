@@ -1,6 +1,8 @@
 package myfunc
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func Hello(c *gin.Context) {
 	name := "hello iam aoao"
@@ -47,4 +49,14 @@ func Hello4(c *gin.Context) {
 		Age:  3,
 	}
 	c.HTML(200, "demo01/hello01.html", arr)
+}
+
+func Hello5(c *gin.Context) {
+	// 定义一个Map
+	var a map[string]int = make(map[string]int, 3)
+	//将键值对存入map
+	a["alice"] = 1
+	a["bob"] = 2
+	a["cathy"] = 3
+	c.HTML(200, "demo01/hello01.html", a)
 }
