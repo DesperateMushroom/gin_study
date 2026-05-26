@@ -10,7 +10,21 @@
 <body>
     这是hello01.html页面，欢迎使用
     <span>This is red!</span>
-    {{.}}
+    <br>
+    {{/*这是第一种方式：第一个.代表的是传入的数组的上下文; 第二个.代表遍历的数组的上下文, 代表每一个结构体实例*/}}
+    {{/*range . 里的 .	整个数组 arr；      range 内部的 .	当前元素 item*/}}
+    {{range .}}
+        {{.Name}}
+        {{.Age}}
+        <br>
+    {{end}}
+
+    {{/*这是第二种方式：$i-index，$v-value,如果只用$v接收也是可以的*/}}
+    {{range $i,$v := .}}
+        {{$i}}：
+        {{$v.Name}}-{{$v.Age}}
+        <br>
+    {{end}}
 </body>
 </html>
 {{end}}

@@ -102,7 +102,7 @@ r.Run("127.0.0.1:8080") // same as http.ListenAndServer
 ## 9.数据交互-后端数据给前端-不同类型渲染入页面
 
 ### 渲染字符串类型
-【1】将要渲染的字符串通过第三个参数传入   
+【1】将要渲染的字符串通过`c.HTML(code, name, interface)`第三个参数传入   
 ```Go
 name := "hello iam aoao"
 c.HTML(200, "demo01/hello01.html", name)
@@ -111,3 +111,95 @@ c.HTML(200, "demo01/hello01.html", name)
 【2】在页面上利用上下文来获取：   
 PS: .代表的就是上下文中你传入的name
 `{{.}}`
+
+### 渲染结构体类型
+【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+type Student struct {
+	Name string
+	Age  int
+}
+
+func Hello2(c *gin.Context) {
+	// 创建结构体实例
+	s := Student{
+		Name: "aoao",
+		Age:  4,
+	}
+	c.HTML(200, "demo01/hello01.html", s)
+}
+```
+
+【2】在页面上利用上下文来获取：   
+`{{.Name}}<br>{{.Age}}`   
+
+上面的案例传入的是一个结构体实例，以后可能会传入多个结构体，--> 后续利用map来处理
+
+
+### 渲染数组类型
+【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+func Hello3(c *gin.Context) {
+	// 定义一个数组：
+	var arr [3]int
+	arr[0] = 10
+	arr[1] = 20
+	arr[2] = 30
+
+	c.HTML(200, "demo01/hello01.html", arr)
+}
+```
+【2】在页面上利用上下文来获取：   
+```html
+    {{/*这是第一种方式：第一个.代表的是传入的数组的上下文; 第二个.代表遍历的数组的上下文*/}}
+    {{/*range . 里的 .	整个数组 arr；      range 内部的 .	当前元素 item*/}}
+    {{range .}}
+        {{.}}
+    {{end}}
+
+    {{/*这是第二种方式：$i-index，$v-value*/}}
+    {{range $i,$v := .}}
+        {{$i}}
+        {{$v}}
+    {{end}}
+```  
+
+
+### 渲染结构体数组类型
+【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+func Hello4(c *gin.Context) {
+	// 定义一个结构体类型的数组：
+	var arr [3]Student
+	arr[0] = Student{
+		Name: "alice",
+		Age:  1,
+	}
+	arr[1] = Student{
+		Name: "bob",
+		Age:  2,
+	}
+	arr[2] = Student{
+		Name: "cathy",
+		Age:  3,
+	}
+	c.HTML(200, "demo01/hello01.html", arr)
+}
+```
+【2】在页面上利用上下文来获取：   
+```HTML
+  {{/*这是第一种方式：第一个.代表的是传入的数组的上下文; 第二个.代表遍历的数组的上下文, 代表每一个结构体实例*/}}
+    {{/*range . 里的 .	整个数组 arr；      range 内部的 .	当前元素 item*/}}
+    {{range .}}
+        {{.Name}}
+        {{.Age}}
+        <br>
+    {{end}}
+
+    {{/*这是第二种方式：$i-index，$v-value,如果只用$v接收也是可以的*/}}
+    {{range $i,$v := .}}
+        {{$i}}：
+        {{$v.Name}}-{{$v.Age}}
+        <br>
+    {{end}}
+```
