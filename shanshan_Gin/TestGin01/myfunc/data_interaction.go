@@ -60,3 +60,28 @@ func Hello5(c *gin.Context) {
 	a["cathy"] = 3
 	c.HTML(200, "demo01/hello01.html", a)
 }
+
+func Hello6(c *gin.Context) {
+	// 定义一个Map
+	var a map[string]Student = make(map[string]Student, 3)
+	//将键值对存入map
+	a["no1"] = Student{
+		Name: "alice",
+		Age:  1,
+	}
+	a["no2"] = Student{
+		Name: "bob",
+		Age:  2,
+	}
+	a["no3"] = Student{
+		Name: "cathy",
+		Age:  3,
+	}
+	c.HTML(200, "demo01/hello01.html", a)
+}
+
+func Hello7(c *gin.Context) {
+	// 创建切片
+	slice := []int{1, 2, 3, 4, 5, 6}
+	c.HTML(200, "demo01/hello01.html", slice)
+}

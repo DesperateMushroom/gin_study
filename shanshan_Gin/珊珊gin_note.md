@@ -204,7 +204,7 @@ func Hello4(c *gin.Context) {
     {{end}}
 ```
 
-### 渲染map结构类型
+### 渲染map类型
 【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
 ```Go
 func Hello5(c *gin.Context) {
@@ -228,3 +228,50 @@ func Hello5(c *gin.Context) {
         key: {{$key}} value: {{$value}} <br>
     {{end}}
 ```
+
+### 渲染多个结构体类型
+【1】解决：将多个结构体类型存入Map中：   
+
+【2】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+func Hello6(c *gin.Context) {
+	// 定义一个Map
+	var a map[string]Student = make(map[string]Student, 3)
+	//将键值对存入map
+	a["no1"] = Student{
+		Name: "alice",
+		Age:  1,
+	}
+	a["no2"] = Student{
+		Name: "bob",
+		Age:  2,
+	}
+	a["no3"] = Student{
+		Name: "cathy",
+		Age:  3,
+	}
+	c.HTML(200, "demo01/hello01.html", a)
+}
+```
+
+【3】在页面上利用上下文来获取：  
+```HTML
+
+    {{/*.代表上下文Map，通过key得到value*/}}
+    {{.no1.Name}} = {{.no1.Age}} <br>
+    {{.no2.Name}} = {{.no2.Age}} <br>
+    {{.no3.Name}} = {{.no3.Age}} <br>
+```
+
+### 渲染切片类型
+【1】将要渲染的结构体通过`c.HTML(code, name, interface)`第三个参数传入   
+```Go
+func Hello7(c *gin.Context) {
+	// 创建切片
+	slice := []int{1, 2, 3, 4, 5, 6}
+	c.HTML(200, "demo01/hello01.html", slice)
+}
+```
+【2】在页面上利用上下文来获取：  
+和数组的一模一样
+
