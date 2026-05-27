@@ -275,3 +275,69 @@ func Hello7(c *gin.Context) {
 【2】在页面上利用上下文来获取：  
 和数组的一模一样
 
+
+
+## HTTP请求和响应  
+【1】本质：   
+Web是基于HTTP协议进行交互的应用网络   
+Web就是通过使用浏览器/APP访问服务器的各种资源   
+请求和响应查看：浏览器：f12   
+【2】数据请求方式的分类：
+所有的项目中使用的请求都遵循HTTP协议标准，HTTP协议经过了1.0和1.1两个版本的发展
+- HTTP1.0定义了三种请求方法：GET，POST和HEAD方法
+- HTTP1.1新增了五种请求方法：OPTIONS，PUT，DELETE，TRACE和CONNECT方法
+因此，我们可以说，HTTP协议一共定义了八种方法用来对Requtest-URI网络资源的不同操作方式。   
+这些操作具体为：`GET`, `PUT`, `POST`, `DELETE`, `HEAD`, `OPTIONS`, `TRACE`, `CONNECT` 等八种操作方式   
+【3】Gin框架中包含多个方法，用来支持对上述HTTP多种请求类型的直接处理，直接定义为get方法，post方法等   
+PS: 开发中用的最多的就是get，post请求方式
+
+### HTTP请求
+【1】打开f12 
+Network -> Heaaders -> Raw   
+![alt text](image-1.png)
+【2】HTTP请求包含   
+- Request消息分为3部分
+    1. Request line：
+        - 请求行：请求方式（默认GET）+ 资源路径 + 请求使用的协议    
+            ` GET /demo HTTP/1.1`
+    2. Request header：
+        - 请求头用于说明是谁或什么在发送请求，请求源于何处，或者客户端的喜好及能力。服务器可以根据请求头部给出的客户端信息，试着为客户端提供更好的响应。请求头中信息的格式为 `key:value` （键值对）。不一定全部显示，因为有的是在特定情况才有，了解即可：
+        - `Host`：客户端指定自己像访问的WEB服务器的域名/ip地址和端口号
+        - `Connection`: 连接方式。如果是close则表示基于短连接方式，如果该值是`keep-alive`，网络连接就是持久的，在一定时间范围内是不会关闭，使得对同一个服务器的请求可以继续在该链接上完成
+        - `Upgrade-Insecre-Requests`: 服务端是否支持https加密协议
+        - `Cache-Control`: 指定请求和响应遵循的缓存机制
+        - `User-Agent`: 浏览器表明自己的身份(是哪种浏览器)。例如Chrome浏览器：Mozilla/5.0(Windows NT 10.0; Win64; x64) AppleWebKit/537.36 （KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36
+        - `Accept`: 告诉Web服务器自己接收什么介质类型，`*/*`表示任何类型，`type/*`表示该类型下的所有子类型。
+        - `Accept-Encoding`: 浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法(gzip, defalte)
+        - `Accept-Language`: 浏览器什么自己接收的语言。语言和字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等
+        - `Accept-Charset`: 浏览器告诉服务器自己能接收的字符集
+        - `Referer`: 浏览器向web服务器表面自己是从哪个网页URL获得点击当前请求种的网址URL
+        - `Refresh`: 表示浏览器应该在多少时间之后刷新文档，以秒计时。
+        - `Cookie`：可向服务端传递数据的一种模型
+    3. Request body：
+        - 客户端传递给服务器的数据。比如：表单使用post方式提交的数据，上传的文件数据等
+        - 如果使用get方式请求，数据直接放在URL地址后，不会显示请求体 `xxx?key=val&key=val`
+        - 如果使用post方式请求，请求体种才会有数据    
+        ![alt text](image-2.png)
+
+
+### HTTP响应
+- Response包含
+    1. 响应行：响应使用的协议 + HTTP响应状态码（它以清晰明确的语言告诉客户端本次请求的处理结果）
+        `HTTP/1.1 200 OK`   
+    ![alt text](image-3.png)
+    2. 响应头：反馈给浏览器的信息
+        - 响应头用于告知浏览器当前响应中的详细信息，浏览器提供获取响应头种的信息可以知道应该如何处理响应结果
+        - 响应头种信息的格式为`key:value`（键值对格式
+        - `Date`: 响应的Date使用的是GMT时间格式，表示响应消息送达时间
+        - `Server`: 服务器提供这个Server告诉浏览器服务器的类型
+        - `Vary`: 客户端缓存机制或者是缓存服务器在做缓存操作的时候，会用到vary头，会读取响应头中的Vary的内容，进行一些缓存的判断
+        - `Content-Encoding`: 文档的编码（Encode）方式，用gzip压缩文档能够显著地减少HTML文档的响应时间
+        - `Content-Length`: 表示内容长度，只有当浏览器使用持久HTTP链接时才需要这个数据
+        - `Content-Type`: 表示响应的文档属于什么MIME类型
+    3. 响应体   
+    ![alt text](image.png)
+
+#### 扩展了解：响应状态码
+#### 扩展了解：MIME类型
+
