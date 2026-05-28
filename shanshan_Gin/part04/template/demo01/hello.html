@@ -1,0 +1,61 @@
+{{define "demo01/hello.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/s/css/mycss.css">
+    <!-- 在现代html5里，type可以省略因为浏览器默认script就是js -->
+    <script type="text/javascript" src="/s/js/jquery.min.js"></script>
+
+
+</head>
+<body>
+    <span> this is red </span>
+    <br>
+    定义一个用户的form表单：
+    <form action="/getUserInfo" method="post">
+            <!-- action: 待会提交表单到什么位置  -->
+            <!-- method：不写默认是get -->
+    
+        用户名: <input type="text" name="username" id="uname"><span id="errmsg"></span><br>
+        密码：<input type="password" name="pwd"><br>
+        <input type="submit" value="提交">
+    </form>
+    <script>
+        // 获取用户名的文本框
+        var unametext = document.getElementById("uname");
+        // 给文本框绑定一个事件
+        // 失去焦点的时候会触发后面的函数的事件
+        unametext.onblur = function(){
+            // 获取文本框的内容：
+            var uname = unametext.value;
+        //    alert(uname);// 可以弹出数据，验证代码正确性
+          // 局部刷新：通过ajax技术来实现数据的校验 --> 后台：异步访问，局部刷新
+          // 调用ajax方法需要传入json格式的数据：$.ajax({属性名：属性值，属性名：属性值，方法名：方法})
+          $.ajax({
+            url: "/ajaxpost", // 请求路由
+            type: "POST", // 请求类型GET，POST
+            data: {
+                // 向后端发送的数据，以json格式向后端传递
+                "uname":uname
+            },
+            success : function(info){
+                // 后台响应成功会调用函数
+                // info = 后台响应的数据封装到info里，info名字可以随意
+                // alert(info["msg"])
+                document.getElementById("errmsg").innerText = info["msg"]
+
+            },
+            fail: function(){
+                // 后台响应失败会调用函数
+            }   
+          })
+        }
+
+    </script>
+</body>
+</html>
+
+{{end}}
