@@ -1,0 +1,26 @@
+{{define "demo01/hello.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/s/css/mycss.css">
+</head>
+<body>
+    <span> this is red </span>
+    <br>
+    定义一个用户的form表单：
+    <form action="/savefile" method="post" enctype="multipart/form-data">
+        <!-- 如果上传的文件的name是不同的， 后端的处理就是按照c.FormFile方式-->
+         <!-- 如果上传的文件的name是相同的，那么后端的处理就要发生变化 -->
+        <input type="file" name="myfile" >
+        <input type="file" name="myfile" >
+        <input type="file" name="myfile" >
+
+        <input type="submit" value="提交">
+    </form> 
+</body>
+</html>
+
+{{end}}
