@@ -1,0 +1,57 @@
+{{define "demo01/hello.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/s/css/mycss.css">
+    <script src="/s/js/jquery.min.js"></script>
+</head>
+<body>
+    <span> this is red </span>
+    <br>
+    定义一个用户的form表单：
+    <form action="/savefile" method="post">
+        <input type="file" class="myfile" >
+        <input type="file" class="myfile" >
+        <input type="file" class="myfile" >
+
+        <input type="button" value="提交按钮" id="btn">
+    </form>
+    <script>
+        // 获取按钮
+        var btn = document.getElementById("btn");
+        // 给按钮加入一个单击事件：
+        btn.onclick = function(){
+            // 创建存放form表单的数据：
+            var form_data = new FormData();
+            // 获取多个文件
+            var myfiles = $(".myfile");
+            // 对多个文件进行遍历，每一个添加到form_data中去
+            for(var i = 0; i<myfiles.length; i++){
+                // 在form_data里添加要传入后端的元素：
+                form_data.append("file", $(".myfile")[i].files[0])
+            }
+
+
+            
+            // 利用ajax向后端传递数据
+            $.ajax({
+                url:"/savefile",
+                type:"POST",
+                data:form_data,
+                contentType:false,
+                processData:false,
+                success : function(info){
+                    // 后台响应成功会调用函数
+                    // info = 后台响应的数据封装到info里，info名字可以随意
+                },
+                fail : function(){}
+            })
+        }
+    </script> 
+</body>
+</html>
+
+{{end}}
