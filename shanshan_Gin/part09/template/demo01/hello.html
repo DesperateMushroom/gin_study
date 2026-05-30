@@ -1,0 +1,116 @@
+{{define "demo01/hello.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/s/css/mycss.css">
+</head>
+<body>
+    
+    {{/*获取后端传过来的map_data中的内容*/}}
+    <!-- 通过key获取value -->
+     <!-- .当前的上下文，后端传过来的map_data这个上下文 -->
+    {{.age}} <br>
+    <!-- .当前的上下文，后端传过来的map_data这个上下文 -->
+    {{range .arr}}
+        <!-- 这里的 . 上下文指的是 .arr这个上下文，指的就是遍历的每一个袁旭 -->
+         {{.}}
+
+         <!-- 在循环内部想获取根级上下文中的age的话，就需要使用$.来获取（map_data这个上下文） -->
+          {{$.age}}
+    {{end}}
+    <br>
+
+    <!-- $i, $v 后端传过来的map_data这个上下文中获取数据 -->
+    {{range $i, $v := .arr}}
+        {{$i}} {{$v}} <br>
+    {{end}}
+ <hr>
+
+    对符号的支持：
+    {{"hell no"}}
+    <br>
+    {{`abc`}}
+    <br>  
+    {{`a`}}
+    <br>
+    {{'a'}}
+    <br>
+    {{print "abc aaa"}}
+    <br>
+    <!-- 结果<nil> -->
+    {{print nil}}  
+
+    <hr>
+    变量的定义：
+    {{$name := "aoao"}} <br>
+    变量的使用：
+    {{$name}}
+    <hr>
+    {{if .flag}}
+        <!-- 如果flag是bool，true进来 -->
+        后端传来了true
+    {{end}}
+    {{if .username}}
+        <!-- string类型，非空才进来 -->
+    {{else}}
+        后端没有传username
+    {{end}}
+    <hr>
+    获取结构体中内容： 
+    {{.stu.Age}}  
+    {{.stu.Name}}
+    <br>
+    启动with关键字
+    <!-- 当含有.stu的内容，在这个with里可以直接用.替代 -->
+    {{with .stu}}
+        {{.Age}}{{.Name}}
+    {{end}}
+    <hr>
+    内嵌另外模板：
+    <!-- 如果想要传递内容到内嵌模板中，可以通过.上下文进行传递，和内嵌页面共享上下文数据 -->
+    {{template "template/demo01/hello2.html" .}}
+    <hr>
+    模板函数：<br>
+    {{print "nihao"}} <br>
+    {{printf "name:%s, age: %d" "bob" 12}} <br>
+    {{len .arr}} <br>
+    {{"aoao" | printf "%s"}}  {{"aoao" | len}} <br>
+    {{printf "name: %s, addr: %s" "cathy" (printf "%s-%s" "seattle" "washinton")}}
+    <br>
+    <!-- .age & .username 都不为空，所以返回后一个；.xxx为空，所以返回空 -->
+    {{and .age .username}}
+    {{and .username .age}}
+    {{and .xxx .age}}
+    <br>
+    <!-- 返回第一个不为空 -->
+    {{or .age .username}} 
+    {{or .username .age}}
+    {{or .xxx .yyy}}
+    <br>
+    <!-- 非逻辑，空则返回true -->
+    {{not .age}}
+    {{not .aaa}}
+    <br>
+    <!-- 字母会转化成ascii -->
+    {{index "abcdefg" 4}}
+    {{index .arr 0}}
+    <br>
+    {{eq 26 89}}
+    {{ne 26 89}}
+    {{lt 26 89}}
+    {{le 26 89}}
+    {{gt 26 89}}
+    {{ge 26 89}}
+    <hr>
+    获取后端的时间：
+    {{.now_time.Format "2006-01-02 15-04-05"}}
+    <hr>
+    调用add函数
+    {{add 1 3}}
+</body>
+</html>
+
+{{end}}
